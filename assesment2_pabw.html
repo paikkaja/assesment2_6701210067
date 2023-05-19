@@ -1,40 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>API Form</title>
+    <title>Form Validation</title>
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
-
-    <h1> Form kilek</h1>
+    <h1>Form Validation</h1>
     <form id="apiForm">
-        <label for="titleInput">title:</label>
-        <input type="text" id="idInput" name="Title" readonly><br>
+        <label for="titleInput">Title:</label>
+        <input type="text" id="titleInput" name="Title"><br>
+        <span id="titleError" class="error"></span><br>
 
         <label for="contentInput">Content:</label>
-        <input type="text" id="adviceInput" name="Content" readonly><br>
+        <input type="text" id="contentInput" name="Content"><br>
+        <span id="contentError" class="error"></span><br>
 
         <label for="statusInput">Status:</label>
-        <input type="text" id="dateInput" name="Status" readonly><br>
+        <input type="text" id="statusInput" name="Status"><br>
+        <span id="statusError" class="error"></span><br>
 
         <button type="submit">Submit</button>
     </form>
 
     <script>
-        const jsonData = {
-            "id": 101,
-            "advice": "Always do anything for love, but don't do that.",
-            "date": "2015-12-08"
-        };
-
-        document.getElementById("titleInput").value = jsonData.id;
-        document.getElementById("contentInput").value = jsonData.advice;
-        document.getElementById("statusInput").value = jsonData.date;
-
         document.getElementById("apiForm").addEventListener("submit", function(event) {
             event.preventDefault();
-            // Tambahkan logika yang ingin Anda lakukan ketika formulir disubmit di sini
-            console.log("Form submitted!");
+            validateForm();
         });
+
+        function validateForm() {
+            clearErrors();
+
+            var titleInput = document.getElementById("titleInput");
+            var contentInput = document.getElementById("contentInput");
+            var statusInput = document.getElementById("statusInput");
+
+            var titleError = document.getElementById("titleError");
+            var contentError = document.getElementById("contentError");
+            var statusError = document.getElementById("statusError");
+
+            var isValid = true;
+
+            if (titleInput.value.trim() === "") {
+                titleError.textContent = "Title is required.";
+                isValid = false;
+            }
+
+            if (contentInput.value.trim() === "") {
+                contentError.textContent = "Content is required.";
+                isValid = false;
+            }
+
+            if (statusInput.value.trim() === "") {
+                statusError.textContent = "Status is required.";
+                isValid = false;
+            }
+
+            if (isValid) {
+                // Lakukan tindakan yang ingin Anda lakukan jika formulir valid
+                console.log("Form submitted!");
+            }
+        }
+
+        function clearErrors() {
+            var errorElements = document.getElementsByClassName("error");
+            for (var i = 0; i < errorElements.length; i++) {
+                errorElements[i].textContent = "";
+            }
+        }
     </script>
 </body>
 </html>
